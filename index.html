@@ -3921,8 +3921,45 @@
         })();
 
         function abrirPerfilMobile() {
+            preencherPerfilMobile();
             document.getElementById('perfil-mobile').classList.add('aberto');
             document.getElementById('perfil-mobile-overlay').classList.add('aberto');
+        }
+        // Preenche o painel de perfil com os dados do usuário logado
+        // (Google ou e-mail). Sem isso os campos ficavam travados em "—".
+        function preencherPerfilMobile() {
+            var usuario = carregarUsuario();
+
+            var nomeTopo = document.getElementById('pm-nome');
+            var emailTopo = document.getElementById('pm-email');
+            var nomeEco = document.getElementById('pm-nome-eco');
+            var emailEco = document.getElementById('pm-email-eco');
+            var fotoImg = document.getElementById('pm-foto-img');
+            var editarFotoBtn = document.querySelector('.pm-foto-editar');
+
+            if (!usuario) {
+                if (nomeTopo) nomeTopo.textContent = '';
+                if (emailTopo) emailTopo.textContent = '';
+                if (nomeEco) nomeEco.textContent = '—';
+                if (emailEco) emailEco.textContent = '—';
+                if (fotoImg) fotoImg.src = 'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&s=120';
+                if (editarFotoBtn) editarFotoBtn.style.display = '';
+                return;
+            }
+
+            if (nomeTopo) nomeTopo.textContent = usuario.nome || '';
+            if (emailTopo) emailTopo.textContent = usuario.email || '';
+            if (nomeEco) nomeEco.textContent = usuario.nome || '—';
+            if (emailEco) emailEco.textContent = usuario.email || '—';
+
+            if (fotoImg) {
+                fotoImg.src = usuario.foto ||
+                    'https://www.gravatar.com/avatar/00000000000000000000000000000000?d=mp&s=120';
+            }
+
+            // Login pelo Google: a foto vem da conta do Google e não pode
+            // ser trocada manualmente pelo site (como no Mercado Livre real).
+            if (editarFotoBtn) editarFotoBtn.style.display = (usuario.metodo === 'google') ? 'none' : '';
         }
         function fecharPerfilMobile() {
             document.getElementById('perfil-mobile').classList.remove('aberto');
