@@ -1445,7 +1445,7 @@
 <body>
     <header class="site-header">
         <div class="header-superior">
-            <button type="button" class="m-avatar mob-only" onclick="return abrirLogin(event)" aria-label="Minha conta">
+            <button type="button" class="m-avatar mob-only" id="m-avatar-btn" onclick="return cliqueAvatarMobile(event)" aria-label="Minha conta">
                 <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#333" stroke-width="1.8"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c1.4-3.6 4.2-5.4 7.5-5.4s6.1 1.8 7.5 5.4"/></svg>
             </button>
             <a href="?" class="logo" onclick="return irParaLista(event)">
@@ -3595,9 +3595,33 @@
             if (menu) menu.classList.remove('aberto');
         });
 
+        // Ícone de perfil fixo do topo (só existe na versão mobile).
+        // Precisa ser atualizado à parte porque fica fora do contas-area.
+        function sincronizarAvatarMobileTopo(usuario) {
+            const btn = document.getElementById('m-avatar-btn');
+            if (!btn) return;
+            if (usuario && usuario.foto) {
+                btn.innerHTML = `<img src="${usuario.foto}" alt="${usuario.nome}" style="width:26px;height:26px;border-radius:50%;object-fit:cover;">`;
+            } else if (usuario) {
+                const inicial = usuario.nome.charAt(0).toUpperCase();
+                btn.innerHTML = `<span style="display:flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;background:#3483fa;color:#fff;font-size:13px;font-weight:600;">${inicial}</span>`;
+            } else {
+                btn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="#333" stroke-width="1.8"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20c1.4-3.6 4.2-5.4 7.5-5.4s6.1 1.8 7.5 5.4"/></svg>';
+            }
+        }
+        function cliqueAvatarMobile(event) {
+            if (event) event.preventDefault();
+            if (carregarUsuario()) {
+                abrirPerfilMobile();
+                return false;
+            }
+            return abrirLogin(event);
+        }
+
         function renderizarAreaConta() {
             const area = document.getElementById('contas-area');
             const usuario = carregarUsuario();
+            sincronizarAvatarMobileTopo(usuario);
 
             if (!usuario) {
                 area.innerHTML = `
@@ -3724,53 +3748,17 @@
         <div class="pm-secao">
             <span class="pm-secao-titulo">Conta</span>
             <button type="button" class="pm-linha" onclick="editarCampoPerfil('pm-nome','Seu nome')">
-                <span class="pm-ico">👤</span>
                 <span class="pm-txt"><b>Nome</b><i id="pm-nome-eco">—</i></span>
                 <span class="pm-seta">›</span>
             </button>
             <button type="button" class="pm-linha" onclick="editarCampoPerfil('pm-email','E-mail da conta Google')">
-                <span class="pm-ico">✉️</span>
                 <span class="pm-txt"><b>Conta Google</b><i id="pm-email-eco">—</i></span>
                 <span class="pm-seta">›</span>
             </button>
             <button type="button" class="pm-linha" onclick="editarCampoPerfil('pm-telefone','Telefone')">
-                <span class="pm-ico">📱</span>
                 <span class="pm-txt"><b>Telefone</b><i id="pm-telefone">—</i></span>
                 <span class="pm-seta">›</span>
             </button>
-        </div>
-
-        <div class="pm-secao">
-            <span class="pm-secao-titulo">Localização</span>
-            <button type="button" class="pm-linha" onclick="editarCampoPerfil('pm-endereco','Endereço de entrega')">
-                <span class="pm-ico">📍</span>
-                <span class="pm-txt"><b>Endereço</b><i id="pm-endereco">—</i></span>
-                <span class="pm-seta">›</span>
-            </button>
-            <button type="button" class="pm-linha" onclick="editarCampoPerfil('pm-cep','CEP')">
-                <span class="pm-ico">🏷️</span>
-                <span class="pm-txt"><b>CEP</b><i id="pm-cep">—</i></span>
-                <span class="pm-seta">›</span>
-            </button>
-            <button type="button" class="pm-linha" onclick="usarLocalizacaoAtual()">
-                <span class="pm-ico">🧭</span>
-                <span class="pm-txt"><b>Usar minha localização atual</b><i id="pm-geo">Detectar automaticamente</i></span>
-                <span class="pm-seta">›</span>
-            </button>
-        </div>
-
-        <div class="pm-secao">
-            <span class="pm-secao-titulo">Preferências</span>
-            <label class="pm-linha pm-switch-linha">
-                <span class="pm-ico">🔔</span>
-                <span class="pm-txt"><b>Notificações</b><i>Ofertas e status dos pedidos</i></span>
-                <input type="checkbox" class="pm-switch" checked>
-            </label>
-            <label class="pm-linha pm-switch-linha">
-                <span class="pm-ico">🌙</span>
-                <span class="pm-txt"><b>Tema escuro</b><i>Aparência do aplicativo</i></span>
-                <input type="checkbox" class="pm-switch">
-            </label>
         </div>
 
         <button type="button" class="pm-sair" onclick="fecharPerfilMobile()">Sair da conta</button>
