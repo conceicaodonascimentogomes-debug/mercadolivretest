@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mercado Livre - Ofertas com até 55% OFF</title>
     <meta name="description" content="Compre com ofertas imperdíveis e frete grátis. Eletrônicos, celulares, notebooks e muito mais com até 55% de desconto.">
     <meta property="og:title" content="Mercado Livre - Ofertas com até 55% OFF">
@@ -15,6 +15,12 @@
         * { box-sizing: border-box; }
         body { font-family: Arial, sans-serif; margin: 0; padding: 0; background-color: #f5f5f5; overflow-x: hidden; }
         html { overflow-x: hidden; }
+
+        /* Esconde visualmente mas mantém acessível para leitores de tela */
+        .sr-only {
+            position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+            overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0;
+        }
 
         .conteudo-pagina { padding: 20px; }
 
@@ -476,7 +482,7 @@
         .footer-copyright {
             text-align: center;
             font-size: 0.75rem;
-            color: #999;
+            color: #757575;
             margin: 0;
             line-height: 1.5;
         }
@@ -581,7 +587,7 @@
         }
         .end-modal h2 { margin: 0 0 4px; font-size: 1.25rem; color: #333; }
         .end-modal p.end-sub { margin: 0 0 18px; font-size: .85rem; color: #666; }
-        .end-fechar { position: absolute; top: 10px; right: 14px; background: none; border: none; font-size: 1.6rem; cursor: pointer; color: #999; }
+        .end-fechar { position: absolute; top: 10px; right: 14px; background: none; border: none; font-size: 1.6rem; cursor: pointer; color: #757575; }
         .end-grid { display: grid; grid-template-columns: repeat(6, 1fr); gap: 12px; }
         .end-campo { display: flex; flex-direction: column; gap: 4px; }
         .end-campo.col-2 { grid-column: span 2; }
@@ -688,7 +694,7 @@
         .login-campo input {
             width: 100%;
             padding: 12px 10px;
-            border: 1px solid #999;
+            border: 1px solid #767676;
             border-radius: 4px;
             font-size: 0.95rem;
         }
@@ -720,7 +726,7 @@
             align-items: center;
             gap: 10px;
             margin: 22px 0;
-            color: #999;
+            color: #757575;
             font-size: 0.8rem;
         }
         .login-separador::before,
@@ -969,7 +975,7 @@
             margin-bottom: 4px;
         }
         .detalhes-favorito {
-            font-size: 1.3rem; color: #999; cursor: pointer;
+            font-size: 1.3rem; color: #757575; cursor: pointer;
             background: none; border: none; line-height: 1;
         }
         .devolucao-gratis-banner {
@@ -1311,7 +1317,7 @@
         .descricao-texto.expandida::after { display: none; }
         .descricao-caracteristicas-titulo {
             margin: 26px 0 10px 0;
-            color: #999;
+            color: #757575;
             letter-spacing: .5px;
         }
         .descricao-lista { margin: 0; padding-left: 18px; }
@@ -1344,7 +1350,7 @@
             line-height: 1;
         }
         .opinioes-resumo-estrelas { color: #3483fa; font-size: 1.1rem; letter-spacing: 1px; }
-        .opinioes-total { display: block; color: #999; font-size: .8rem; margin-top: 4px; }
+        .opinioes-total { display: block; color: #757575; font-size: .8rem; margin-top: 4px; }
         .opinioes-aviso {
             display: flex;
             gap: 8px;
@@ -1376,7 +1382,7 @@
             border-radius: 4px;
             background: #666;
         }
-        .opinioes-barra-label { color: #999; font-size: .8rem; white-space: nowrap; }
+        .opinioes-barra-label { color: #757575; font-size: .8rem; white-space: nowrap; }
         .opinioes-barra-linha.ativa .opinioes-barra span { background: #3483fa; }
         .opinioes-barra-linha.ativa .opinioes-barra-label { color: #3483fa; }
 
@@ -1453,7 +1459,7 @@
             font-size: .85rem;
             margin-bottom: 26px;
         }
-        .opinioes-contagem { color: #999; font-size: .8rem; margin: -8px 0 18px 0; }
+        .opinioes-contagem { color: #757575; font-size: .8rem; margin: -8px 0 18px 0; }
         .opiniao-item { padding: 16px 0; border-top: 1px solid #f0f0f0; max-width: 620px; }
         .opiniao-item:first-child { border-top: none; }
         .opiniao-topo {
@@ -1463,9 +1469,9 @@
             margin-bottom: 8px;
         }
         .opiniao-estrelas { color: #3483fa; letter-spacing: 1px; font-size: .9rem; }
-        .opiniao-data { color: #999; font-size: .8rem; }
+        .opiniao-data { color: #757575; font-size: .8rem; }
         .opiniao-texto { color: #444; line-height: 1.5; margin: 0; }
-        .opinioes-vazio { color: #999; }
+        .opinioes-vazio { color: #757575; }
 
         @media (max-width: 900px) {
             .opinioes-grid { grid-template-columns: 1fr; gap: 26px; }
@@ -1561,6 +1567,8 @@
     </div>
 
     <div class="conteudo-pagina" id="pagina-lista">
+
+    <h1 class="sr-only">Mercado Livre Brasil — compre online com ofertas e frete grátis</h1>
 
     <section class="destaques" id="destaques">
         <h2>🔥 Ofertas em destaque</h2>
@@ -1828,7 +1836,7 @@
                         <span class="condicao-info" id="detalhes-condicao"></span>
                         <button class="detalhes-favorito" aria-label="Favoritar" type="button">♡</button>
                     </div>
-                    <h2 class="detalhes-nome" id="detalhes-nome"></h2>
+                    <h1 class="detalhes-nome" id="detalhes-nome"></h1>
                     <div id="detalhes-avaliacao"></div>
                     <p class="detalhes-preco" id="detalhes-preco"></p>
                     <div class="parcelamento" id="detalhes-parcelamento"></div>
@@ -2458,11 +2466,30 @@
             }
         ];
 
-        // ===== FLASH SALE: data-fim REAL e única para todos os visitantes =====
-        // Para prorrogar/encerrar a promoção, basta mudar esta data (formato ISO, UTC).
-        const FLASH_SALE_FIM = new Date('2026-08-07T21:30:00Z').getTime();
-        const FLASH_SALE_ATIVA = Date.now() < FLASH_SALE_FIM;
+        // ===== FLASH SALE: contador regressivo de 24 horas =====
+        // Cada visitante recebe sua própria janela de 24h a partir da primeira visita
+        // (salva no localStorage), para que o prazo não "zere" a cada recarregamento
+        // de página nem fique preso a uma data fixa que expira sozinha.
+        const FLASH_SALE_DURACAO_MS = 24 * 60 * 60 * 1000; // 24 horas
         const FLASH_SALE_DESCONTO = 0.55; // 55% de desconto sobre o preço original
+        const FLASH_SALE_CHAVE = 'flashSaleFim';
+
+        function obterFimFlashSale() {
+            const agora = Date.now();
+            try {
+                const salvo = parseInt(localStorage.getItem(FLASH_SALE_CHAVE), 10);
+                if (salvo && !isNaN(salvo) && salvo > agora) return salvo;
+                const novoFim = agora + FLASH_SALE_DURACAO_MS;
+                localStorage.setItem(FLASH_SALE_CHAVE, String(novoFim));
+                return novoFim;
+            } catch (e) {
+                // localStorage indisponível (ex.: navegação privada): usa 24h a partir de agora
+                return agora + FLASH_SALE_DURACAO_MS;
+            }
+        }
+
+        const FLASH_SALE_FIM = obterFimFlashSale();
+        const FLASH_SALE_ATIVA = Date.now() < FLASH_SALE_FIM;
 
         if (FLASH_SALE_ATIVA) {
             produtos.forEach(produto => {
@@ -3955,7 +3982,7 @@
         .pm-identidade span { font-size: .8rem; color: #777; }
         .pm-google { display: inline-flex; align-items: center; gap: 5px; color: #444 !important; }
         .pm-secao { padding: 12px 0 4px; border-bottom: 1px solid #f2f2f2; }
-        .pm-secao-titulo { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; color: #999; margin-bottom: 6px; }
+        .pm-secao-titulo { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .04em; color: #757575; margin-bottom: 6px; }
         .pm-linha {
             width: 100%; display: flex; align-items: center; gap: 10px; padding: 10px 2px;
             background: none; border: none; text-align: left; cursor: pointer; font-family: inherit;
