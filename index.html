@@ -1790,7 +1790,7 @@
                 <div class="detalhes-info">
                     <div class="detalhes-linha-topo">
                         <span class="condicao-info" id="detalhes-condicao"></span>
-                        <span class="detalhes-favorito">♡</span>
+                        <span class="detalhes-favorito" id="detalhes-favorito" onclick="alternarFavorito()" title="Favoritar">♡</span>
                     </div>
                     <h2 class="detalhes-nome" id="detalhes-nome"></h2>
                     <div id="detalhes-avaliacao"></div>
@@ -2881,6 +2881,9 @@
         function fecharEndereco() {
             document.getElementById('end-overlay').classList.remove('aberto');
             document.body.style.overflow = '';
+            // Reseta o produto em checkout: sem isso o "Finalizar compra" do
+            // carrinho ficaria preso no último produto de "Comprar agora".
+            produtoCheckoutId = null;
         }
 
         // Ajusta a quantidade do item direto no modal de endereço, sem precisar
@@ -3001,8 +3004,49 @@
 
         function finalizarCompra() {
             if (carrinho.length === 0) return;
+            const idsUnicos = [...new Set(carrinho.map(i => i.id))];
+            if (idsUnicos.length > 1) {
+                const primeiro = produtos.find(p => p.id === carrinho[0].id);
+                const ok = confirm(
+                    'Cada produto tem um checkout próprio (link de pagamento individual).\n\n' +
+                    'Vamos continuar com "' + (primeiro ? primeiro.nome : carrinho[0].nome) + '".\n' +
+                    'Os outros ' + (idsUnicos.length - 1) + ' produto(s) continuam salvos no carrinho para você finalizar depois.\n\n' +
+                    'Deseja continuar?'
+                );
+                if (!ok) return;
+            }
             fecharCarrinho();
-            abrirEndereco(produtoCheckoutId !== null ? produtoCheckoutId : carrinho[0].id);
+            abrirEndereco(carrinho[0].id);
+        }
+
+        // ---- Favoritos ----
+        function carregarFavoritos() {
+            try {
+                const salvo = JSON.parse(localStorage.getItem('favoritos') || '[]');
+                return Array.isArray(salvo) ? salvo : [];
+            } catch (e) { return []; }
+        }
+
+        function ehFavorito(id) {
+            return carregarFavoritos().includes(id);
+        }
+
+        function atualizarIconeFavorito() {
+            const icone = document.getElementById('detalhes-favorito');
+            if (!icone || produtoAtualId === null) return;
+            const favorito = ehFavorito(produtoAtualId);
+            icone.textContent = favorito ? '♥' : '♡';
+            icone.style.color = favorito ? '#e63946' : '#999';
+            icone.title = favorito ? 'Remover dos favoritos' : 'Favoritar';
+        }
+
+        function alternarFavorito() {
+            if (produtoAtualId === null) return;
+            const favoritos = carregarFavoritos();
+            const indice = favoritos.indexOf(produtoAtualId);
+            if (indice >= 0) favoritos.splice(indice, 1); else favoritos.push(produtoAtualId);
+            localStorage.setItem('favoritos', JSON.stringify(favoritos));
+            atualizarIconeFavorito();
         }
 
         // ---- Modal de detalhes do produto ----
@@ -3119,6 +3163,7 @@
                 ? `${produto.condicao}${produto.vendidos ? ` | +${produto.vendidos >= 1000 ? Math.floor(produto.vendidos / 1000) + ' mil' : produto.vendidos} vendidos` : ''}`
                 : '';
             document.getElementById('detalhes-avaliacao').innerHTML = renderizarAvaliacao(produto);
+            atualizarIconeFavorito();
             document.getElementById('detalhes-nome').textContent = produto.nome;
 
             const { precoHtml, parcelamentoHtml, freteHtml } = montarBlocoPreco(produto);
